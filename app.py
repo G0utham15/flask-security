@@ -1,12 +1,11 @@
-from flask import Flask, redirect, url_for, render_template
-from flask import request
+from flask import Flask, redirect, url_for, render_template, flash, request
 from flask_security.forms import PasswordField
 from flask_security import Security, login_required, \
-     SQLAlchemySessionUserDatastore, roles_required, current_user, utils, UserMixin, RoleMixin
+     SQLAlchemySessionUserDatastore, roles_required, current_user, utils, UserMixin, RoleMixin, login_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_mail import Mail
-from forms import ExtendedLoginForm, registerForm
+from forms import registerForm
 from flask_admin import Admin
 from flask_admin.contrib import sqla
 # Create app
@@ -47,7 +46,7 @@ class User(db.Model, UserMixin):
 
 user_datastore = SQLAlchemySessionUserDatastore(db.session,
                                                 User, Role)
-security = Security(app, user_datastore, login_form=ExtendedLoginForm, register_form=registerForm)
+security = Security(app, user_datastore, register_form=registerForm)
 #mail=Mail(app)
 # Create a user to test with
 
@@ -125,15 +124,12 @@ def create_user():
 def home():
     return render_template('index.html')
 
-@app.route("/login", methods = ['GET', 'POST'])
+@app.route("/logout")
 @login_required
-def login():
-    form = ExtendedLoginForm()
-    #data = query_fal_dept()
-    if form.validate_on_submit():
-        print(form.email.data)
-        return redirect(url_for("index"))
-    return render_template('security/login_user.html', login_form=form)
+def logout():
+    logout_user()
+    flash('Logged out Successfully', 'success')
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.run(debug=True)

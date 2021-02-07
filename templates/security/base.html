@@ -9,29 +9,6 @@
     {% block head %}{% endblock %}
 </head>
 <body>
-    <div class="container">
-    {% with messages = get_flashed_messages(category_filter=["error"]) %}
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-danger alert-dismissible">
-                    {{message}}
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-    
-    {% with messages = get_flashed_messages(category_filter=["success"]) %}
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-success alert-dismissible">
-                    {{message}}
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-    </div>
     {% block content %}{% endblock %}
 </body>
 </html>
