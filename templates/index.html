@@ -1,0 +1,23 @@
+{% extends 'security/base.html' %}
+{% block head %}
+<title>Welcome</title>
+{% endblock %}
+{% block content %}
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <img src="../static/assets/bootstrap-logo.svg" alt="" width="30" height="24">
+      </a>
+    </div>
+    <div>
+        {% if current_user.has_role('admin') %}
+        <a href="/admin">Admin</a>
+    {% endif %}
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+  </nav>
+<h1>Welcome {{current_user.username}}</h1>
+
+{% endblock %}
